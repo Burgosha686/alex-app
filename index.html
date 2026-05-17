@@ -179,23 +179,22 @@
     </div>
 
     <script>
-        // Инициализация WebApp Telegram
-        const tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем на весь экран
+       // Инициализируем Телеграм WebApp
+const tg = window.Telegram.WebApp;
+tg.expand(); // Открывает окно сразу на максимум
 
-        // Получаем реальные данные из Telegram
-        const user = tg.initDataUnsafe?.user;
-        
-        if (user) {
-            document.getElementById('first-name').innerText = user.first_name;
-            document.getElementById('username').innerText = user.username ? '@' + user.username : '';
-            document.getElementById('avatar-letter').innerText = user.first_name.charAt(0).toUpperCase();
-        }
+// Говорим сайту следить за кликом по кнопке активации
+// Замени '.premium-btn', если класс твоей кнопки называется иначе (например, просто '.btn')
+const premiumButton = document.querySelector('.premium-btn') || document.querySelector('.btn');
 
-        function buyPremium() {
-            // Триггерим событие покупки обратно в Python-бота
-            tg.sendData("buy_premium_clicked");
-            tg.close(); // Закрываем окно
+if (premiumButton) {
+    premiumButton.addEventListener('click', () => {
+        // Отправляем боту секретную команду
+        tg.sendData("activate_premium");
+        // Закрываем мини-приложение, чтобы пользователь вернулся в чат
+        tg.close();
+    });
+}
         }
     </script>
 </body>
