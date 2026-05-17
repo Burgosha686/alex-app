@@ -178,24 +178,30 @@
         <span class="sub-text">Безлимитные запросы и приоритетная поддержка</span>
     </div>
 
-    <script>
-       // Инициализируем Телеграм WebApp
-const tg = window.Telegram.WebApp;
-tg.expand(); // Открывает окно сразу на максимум
+   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+    // Инициализируем Телеграм WebApp
+    const tg = window.Telegram.WebApp;
+    tg.expand(); // Открываем на весь экран
 
-// Говорим сайту следить за кликом по кнопке активации
-// Замени '.premium-btn', если класс твоей кнопки называется иначе (например, просто '.btn')
-const premiumButton = document.querySelector('.premium-btn') || document.querySelector('.btn');
+    // Перебираем все кнопки на странице и ищем ту, где написано про Премиум
+    const buttons = document.querySelectorAll('button, a, div');
+    let premiumButton = null;
 
-if (premiumButton) {
-    premiumButton.addEventListener('click', () => {
-        // Отправляем боту секретную команду
-        tg.sendData("activate_premium");
-        // Закрываем мини-приложение, чтобы пользователь вернулся в чат
-        tg.close();
-    });
-}
+    buttons.forEach(btn => {
+        if (btn.textContent && btn.textContent.includes('Активировать Premium')) {
+            premiumButton = btn;
         }
-    </script>
+    });
+
+    // Если нашли кнопку, вешаем на нее отправку данных
+    if (premiumButton) {
+        premiumButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            tg.sendData("open_payment_menu"); // Шлем сигнал боту
+            tg.close(); // Закрываем мини-приложение
+        });
+    }
+</script>
 </body>
 </html>
