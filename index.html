@@ -178,13 +178,12 @@
         <span class="sub-text">Безлимитные запросы и приоритетная поддержка</span>
     </div>
 
-   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
-    // Инициализируем Телеграм WebApp
     const tg = window.Telegram.WebApp;
-    tg.expand(); // Открываем на весь экран
+    tg.expand();
 
-    // Перебираем все кнопки на странице и ищем ту, где написано про Премиум
+    // Ищем нашу кнопку
     const buttons = document.querySelectorAll('button, a, div');
     let premiumButton = null;
 
@@ -194,12 +193,16 @@
         }
     });
 
-    // Если нашли кнопку, вешаем на нее отправку данных
     if (premiumButton) {
         premiumButton.addEventListener('click', (e) => {
             e.preventDefault();
-            tg.sendData("open_payment_menu"); // Шлем сигнал боту
-            tg.close(); // Закрываем мини-приложение
+            
+            // Вместо отправки данных боту, мы напрямую открываем инвойс!
+            // В Telegram можно создать прямую ссылку на оплату через твоего бота.
+            // Пока мы создадим ссылку-пересылку обратно в бота в режиме старта:
+            
+            tg.openTelegramLink("https://t.me/ege_hacker_ai_bot?start=pay"); 
+            tg.close(); 
         });
     }
 </script>
